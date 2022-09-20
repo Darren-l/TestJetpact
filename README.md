@@ -35,3 +35,22 @@
 
    流程就变成了：数据请求成功后，postValue更新liveData绑定对象，在liveData观察者回调中绑定BO，在BO的观察者回调
    中刷新Ui。后续不管是刷新数据对象本身还是更换liveData数据源，相应绑定的Ui都会自动刷新。
+   
+
+##目录演示内容
+1. cn.gd.snm.testjetpact.databinding：用于演示MVVM databinding的绑定
+2. cn.gd.snm.testjetpact.livebus：用于演示liveData的使用。
+3. cn.gd.snm.testjetpact.viewmodel： 用于演示 mvvm + liveData + viewModel
+4. cn.gd.snm.testjetpact.coroutines： 用于演示coroutine及flow的使用。
+5. cn.gd.snm.testjetpact.development: 
+   用于演示从mvc --> mvp --> mvvm + liveData + viewMode --> mvvm + viewMode + flow(或RxJava版)
+   
+6. cn.gd.snm.testjetpact.room: 用于演示room数据库的使用。
+
+
+##数据请求地址
+测试组件1-get：http://epg.launcher.aisee.tv/epgol/getsimpledetail?source=snmott&productline=lanxu&channel=10401&ifver=v7&code=jlj6rvcl04ca0ao
+测试组件2-get-recyclerveiw：http://epg.launcher.aisee.tv/epgol/getbatchids?source=snmott&productline=lanxu&channel=10401&ifver=v7&code=jlj6rvcl04ca0ao&req_contenttype=2&req_videotype=3&pageno=1&pagesize=180&cp_source=ottjg
+
+##参考资料
+https://juejin.cn/post/7087718088681979934

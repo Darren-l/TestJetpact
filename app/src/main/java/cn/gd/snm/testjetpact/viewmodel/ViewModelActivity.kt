@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.activity_view_model_lay.*
  *  在get时，会先去cacheData页面临时存储区寻找是否存在viewModel，切换前的model会存在cacheData中。
  *
  *
+ * viewModel在mvvm模式中，作为数据的持有类，存储绑定在视图中的obers对象，处理数据转换等。
+ *
  */
 class ViewModelActivity : AppCompatActivity() {
 

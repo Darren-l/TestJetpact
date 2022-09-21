@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.gd.snm.testjetpact.R
+import kotlinx.android.synthetic.main.common2_layout.*
 import kotlinx.android.synthetic.main.common_layout.*
+import kotlinx.android.synthetic.main.common_layout.tv_title
 
 /**
  * MVVM + viewModel + liveData
@@ -21,8 +24,13 @@ class MvvmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mvvm)
+        initView()
         bindData()
         setListener()
+    }
+
+    private fun initView() {
+        rec.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
 
     /**
@@ -45,28 +53,33 @@ class MvvmActivity : AppCompatActivity() {
     private fun bindData() {
         detailViewModel.descLiveData.observe(this){
             Log.d(TAG,"descLiveData,observe...decsEntity=$it")
-            updateDescView(it)
+            bindDescView(it)
         }
 
         detailViewModel.listLiveData.observe(this){
-            Log.d(TAG,"listLiveData,observe...listInfoEntity=$it")
-            updateRecyclerView()
+            Log.d(TAG,"listLiveData,observe...")
+            bindRecyclerView(it)
         }
     }
 
+    lateinit var recyAdapter:ItemAdapter
     /**
      * 更新recyclerview组件
      *
      */
-    private fun updateRecyclerView() {
-
+    private fun bindRecyclerView(it:ListInfoEntity) {
+        if(rec.adapter == null){
+            recyAdapter = ItemAdapter(this,it,detailViewModel.listLiveData)
+            rec.adapter = recyAdapter
+        }
+        recyAdapter.update(it)
     }
 
     /**
      * 更新desc组件的Ui。
      *
      */
-    private fun updateDescView(it: DecsEntity?) {
+    private fun bindDescView(it: DecsEntity?) {
         tv_title.text = it!!.detail.title
         tv_score.text = it.detail.score
         tv_year.text = it.detail.year

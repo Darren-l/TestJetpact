@@ -32,6 +32,7 @@ class ListDataRepository {
                 Log.d(MvvmActivity.TAG,"onResponse...")
                 if(response.isSuccessful){
                     Log.d(MvvmActivity.TAG,response.body().toString())
+                    mutableLiveData.postValue(response.body())
                 }else{
                     Log.e(MvvmActivity.TAG,"doGet error...")
                 }

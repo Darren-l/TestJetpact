@@ -20,7 +20,7 @@ import kotlin.concurrent.thread
  *  热流：上游和下游处于异步非阻塞状态，也就是上游发送和下游处理并不同步，
  *
  */
-class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
+class Test02Flow(var lifecycleScope: CoroutineScope) : ViewModel() {
 
     companion object {
 
@@ -32,28 +32,28 @@ class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
     fun main() {
 
         //todo 测试 --- 类似于observable
-//        testFlow()
+        testFlow()
 
         //todo 测试过滤操作符filter和流构建方式
-//        testFilter()
+        testFilter()
 
         //todo 切换线程
-//        testFlowOn()
+        testFlowOn()
 
         //todo 设置超时
-//        testTimeOut()
+        testTimeOut()
 
         //todo 测试异常
-//        testException()
+        testException()
 
         //todo 测试flatMapMerge
-//        testFlatMapMerge()
+        testFlatMapMerge()
 
         //todo 常用操作符
-//        testCommon()
+        testCommon()
 
         //todo 测试MutableShare
-//        testMutableShareFlow()
+        testMutableShareFlow()
     }
 
 
@@ -116,6 +116,7 @@ class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
 
 
             //todo 与zip不同，合并的是数据源本身，两个数组变成一个大数组。不会等待delay
+            //todo add -- 实际上会等待挂起函数中的delay。
             val flowA = (1..5).asFlow()
             val flowB = flowOf("one", "two", "three","four","five").onEach { delay(100) }
 
@@ -236,10 +237,10 @@ class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
         private fun testFilter() {
             runBlocking {
                 //todo 构建流方式一，自动发射多个  -- 冷流
-//            flowOf(1,2,3,4)
-//                .collect{
-//                    Log.d(TAG,"onNext=${it}")
-//                }
+            flowOf(1,2,3,4)
+                .collect{
+                    Log.d(TAG,"onNext=${it}")
+                }
 //
 //            //todo 方式二，自动发射多个   -- 冷流
 //            (0..5).asFlow()
@@ -340,13 +341,13 @@ class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
         private fun testMutableShareFlow() {
             Log.d(TAG, "testMutableShareFlow...")
 
-            val mutableStateFlow = MutableSharedFlow<String>()
+            val mutableSharedFlow = MutableSharedFlow<String>()
 
             //todo 热流 -- 收藏必须写在发射之前，默认是没有粘性的。
         lifecycleScope.launch {
             //todo 添加第一个观察者
             Log.d(TAG,"collect...")
-            mutableStateFlow.collect{
+            mutableSharedFlow.collect{
                 Log.d(TAG,"collect it=${it}")
             }
 
@@ -358,16 +359,16 @@ class Test02(var lifecycleScope: CoroutineScope) : ViewModel() {
 
         //todo 重新定义一个协程作用域，解决挂起函数阻塞问题
         lifecycleScope.launch {
-            mutableStateFlow.collect{
+            mutableSharedFlow.collect{
                 Log.d(TAG,"collect it2=${it}")
             }
         }
 
         lifecycleScope.launch {
             Log.d(TAG,"emit...")
-            mutableStateFlow.emit("first")
-            mutableStateFlow.emit("sec")
-            mutableStateFlow.emit("thr")
+            mutableSharedFlow.emit("first")
+            mutableSharedFlow.emit("sec")
+            mutableSharedFlow.emit("thr")
         }
 
 

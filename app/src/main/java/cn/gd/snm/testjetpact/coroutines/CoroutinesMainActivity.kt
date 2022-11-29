@@ -2,11 +2,10 @@ package cn.gd.snm.testjetpact.coroutines
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import cn.gd.snm.testjetpact.R
+import cn.gd.snm.testjetpact.coroutines.flow.Test04
 import kotlinx.android.synthetic.main.activity_coroutines_main.*
-import kotlinx.coroutines.launch
 
 class CoroutinesMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +28,16 @@ class CoroutinesMainActivity : AppCompatActivity() {
 //            var testFlow = Test02(lifecycleScope)
 //            testFlow.main()
 
-            //todo flow的探究
-            var test03 = Test03(lifecycleScope)
-            test03.main()
+            //todo
+//            var test03 = Test03(lifecycleScope)
+//            test03.main()
+
+//            var test04 = Test04Main(lifecycleScope)
+//            test04.go()
+
+            var test4 = Test04(lifecycleScope)
+            test4.main()
+
         }
 
 

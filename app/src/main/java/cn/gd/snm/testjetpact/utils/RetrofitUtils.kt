@@ -33,5 +33,43 @@ class RetrofitUtils {
 
             return retrofit
         }
+
+        fun createRetrofitTestFlow(baseUrl: String): Retrofit {
+            //todo 自定义okhttp
+            var okhttpClient = OkHttpClient.Builder()
+            okhttpClient.readTimeout(10L, TimeUnit.SECONDS)
+            okhttpClient.connectTimeout(9, TimeUnit.SECONDS)
+            okhttpClient.addNetworkInterceptor(CustomLogInterceptor())
+
+
+            var retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okhttpClient.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            return retrofit
+        }
     }
+
+
+
+//    fun createRetrofitByLiveData(baseUrl: String): Retrofit {
+//        //todo 自定义okhttp
+//        var okhttpClient = OkHttpClient.Builder()
+//        okhttpClient.readTimeout(10L, TimeUnit.SECONDS)
+//        okhttpClient.connectTimeout(9, TimeUnit.SECONDS)
+//        okhttpClient.addNetworkInterceptor(CustomLogInterceptor())
+//
+//
+//        var retrofit = Retrofit.Builder()
+//            .baseUrl(baseUrl)
+//            .client(okhttpClient.build())
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
+//            .build()
+//
+//        return retrofit
+//    }
+
 }

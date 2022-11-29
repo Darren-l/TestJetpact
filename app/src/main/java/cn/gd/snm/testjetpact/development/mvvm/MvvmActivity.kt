@@ -13,6 +13,16 @@ import kotlinx.android.synthetic.main.common_layout.tv_title
 /**
  * MVVM + viewModel + liveData
  *
+ * ### mvvm中数据的初始化方式--命令式：
+ *
+ *  由V层 -> viewModel层 -> repos -> liveModel
+ *
+ * ### View层Ui的刷新方式--订阅式：
+ *
+ *  由V层主动观察liveModel的数据变化后刷新。
+ *
+ *
+ *
  */
 class MvvmActivity : AppCompatActivity() {
 
@@ -28,6 +38,7 @@ class MvvmActivity : AppCompatActivity() {
         bindData()
         setListener()
     }
+
 
     private fun initView() {
         rec.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
@@ -47,7 +58,7 @@ class MvvmActivity : AppCompatActivity() {
     }
 
     /**
-     * 数据与视图的绑定
+     * 数据与视图的绑定，页面事件的触发由act -> viewModle -> repos -> model
      *
      */
     private fun bindData() {

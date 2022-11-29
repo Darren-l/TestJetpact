@@ -2,7 +2,9 @@ package cn.gd.snm.testjetpact.development.mvvm
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import cn.gd.snm.testjetpact.utils.RetrofitUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,12 +18,15 @@ class DecsRepository {
 
     val mutableLiveData = MutableLiveData<DecsEntity>()
 
+    var mediatorLiveData = MediatorLiveData<DecsEntity>()
+
+
     /**
      * 这里实际是异步的，直接返回了mutableLiveData，待请求成功后会调用postValue更新。
      *
      */
-    fun fetchData():MutableLiveData<DecsEntity>{
-        //todo 通常是先访问数据库，加载本地数据。
+    fun fetchData():MediatorLiveData<DecsEntity>{
+        //todo 通常是先访问数据库，加载本地数据 -- 此处省略
 
         //todo 然后进行网路请求，加载网络数据。
         var reqbody = getRequestBody()
@@ -39,7 +44,13 @@ class DecsRepository {
                 Log.e(MvvmActivity.TAG,"onFailure...")
             }
         })
-        return mutableLiveData
+
+        //todo 通常存在两个数据源，一个本地数据库的，一个网络的，可以使用mediator合并数据源。
+        mediatorLiveData.addSource(mutableLiveData, Observer {
+            mediatorLiveData.value = it
+        })
+
+        return mediatorLiveData
     }
 
     /**
